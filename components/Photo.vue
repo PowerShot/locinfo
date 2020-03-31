@@ -1,37 +1,57 @@
 <template>
     <div class="liste-photo colle {
 ">
-        <h1>#Instagram</h1>
-        <div class="brick">
-            <img src="./files/images/cherry-plant.jpg" alt="Cherry plant" title="Cherry plant">
+        <h1>#Photos</h1>
+        <div v-for="(photo) in this.photos">
+            <div class="brick">
+                <img :src="photo.previewURL" alt="Cherry plant" title="Cherry plant">
+            </div>
         </div>
-        <div class="brick">
-            <img src="./files/images/oranges-pomegranates.jpg" alt="Oranges and Pomegranates" title="Oranges and Pomegranates">
-        </div>
-        <div class="brick">
-            <img src="./files/images/strawberry.jpg" alt="Strawberry" title="Strawberry">
-        </div>
-        <div class="brick">
-            <img src="./files/images/blueberries.jpg" alt="Blueberries" title="Blueberries">
-        </div>
-        <div class="brick">
-            <img src="./files/images/pears.jpg" alt="Pears" title="Pears">
-        </div>
-        <div class="brick">
-            <img src="./files/images/easter-eggs.jpg" alt="Easter-eggs" title="Easter-eggs">
-        </div>
-        <div class="brick">
-            <img src="./files/images/lemons.jpg" alt="Lemons" title="Lemons">
-        </div>
-        <div class="brick">
-            <img src="./files/images/cherries.jpg" alt="Cherries" title="Cherries">
-        </div>
+        
     </div>
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    
     export default {
-        name: "Photo"
+        name: "Photo",
+        data() {
+            return {
+                photos: []
+            }
+        },
+        methods:{
+            traiter: function(){
+                this.$axios.$get(
+                    `https://pixabay.com/api/?key=${process.env.PHOTO_API}&q=${this.leChoix.split(',')[0]}&image_type=photo`
+                    )
+                .then(
+                    res => {
+                        console.log("debut")
+                        console.log(res)
+                        this.photos = res.hits
+                        console.log(res.hits)
+                        console.log("fin")
+                    }
+                )
+            }
+            
+        },
+        mounted() {
+            this.traiter()
+        },
+        computed:{
+            ...mapState(['choix']),
+            leChoix: function() {
+                return this.choix.location
+            }
+        },
+        watch: {
+            leChoix: function(){
+                this.traiter()
+            }
+        }
     }
 </script>
 

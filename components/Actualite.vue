@@ -38,14 +38,7 @@
         name: "Actualite",
         data() {
             return {
-                visible: false,
-                afficherErreur: false,
-                miniature: '',
-
-                emplacement: '',
-                pays : '',
                 articles: []
-
             }
         },
         methods:{
@@ -55,11 +48,7 @@
                     )
                 .then(
                     res => {
-                        console.log("debut")
-                        console.log(res)
                         this.articles = res.articles
-                        console.log(res.articles)
-                        console.log("fin")
                     }
                 )
             }
