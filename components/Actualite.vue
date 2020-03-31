@@ -10,82 +10,21 @@
             <div class="messages-box">
                 <div class="list-group rounded-0">
 
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">14 Dec</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur. incididunt ut labore.</p>
-                            </div>
-                        </div>
-                    </a>
 
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">9 Nov</small>
+                    <div v-for="(article) in this.articles">
+                        
+                        <a :href="article.url" target = "_blank" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                            <div class="media"><img :src="article.image" alt="user" width="50">
+                                <div class="media-body ml-4">
+                                    <small class="small font-weight-bold">{{article.publishedAt}}</small>
+                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                        <h6 class="mb-0">{{article.title}}</h6>
+                                    </div>
+                                    <p class="font-italic text-muted mb-0 text-small">{{article.description}}</p>
                                 </div>
-                                <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
                             </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">18 Oct</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">17 Oct</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">2 Sep</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">30 Aug</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                        <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                            <div class="media-body ml-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">21 Aug</small>
-                                </div>
-                                <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -111,10 +50,8 @@
         },
         methods:{
             traiter: function(){
-                console.log("debut1")
-                console.log("https://gnews.io/api/v3/search?q="+this.leChoix+"&lang=fr&token="+ process.env.GEOCODE_KEY)
                 this.$axios.$get(
-                        `https://gnews.io/api/v3/search?q="${this.leChoix}"&lang=fr&token=${process.env.NEWS_API}`
+                        `https://gnews.io/api/v3/search?q="${this.leChoix.split(',')[0]}"&lang=fr&token=${process.env.NEWS_API}`
                     )
                 .then(
                     res => {
