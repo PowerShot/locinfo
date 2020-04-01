@@ -72,8 +72,8 @@
                         let info = res.results[0]
 
                         this.$store.commit('choix/set', info.formatted);
-                        this.$store.commit('choix/setLat', info.annotations.DMS.lat);
-                        this.$store.commit('choix/setLong', info.annotations.DMS.lng);
+                        this.$store.commit('choix/setLat', info.bounds.northeast.lat);
+                        this.$store.commit('choix/setLong', info.bounds.northeast.lng);
 
                         let infoFractionnee = info.formatted.split(", ")
                         console.log(infoFractionnee)
