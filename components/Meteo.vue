@@ -61,8 +61,61 @@
 </template>
 
 <script>
-    export default {
-        name: "Meteo"
+    import { mapMutations, mapState } from 'vuex'
+    
+    export default {  
+        name: "Meteo",
+        data() {
+            return {
+                temp: []
+
+            }
+        },
+        methods:{
+            traiter: function(){
+                console.log("https://api.weatherbit.io/v2.0/current?&lat="+ this.lon + "&lon=" + this.lat + "&key="+ process.env.WEATHER_API)
+                this.$axios.$get(
+                        `https://api.weatherbit.io/v2.0/current?&lat=${this.lon}&lon=${this.lat}&key=${process.env.WEATHER_API}`
+                    )
+                .then(
+
+                    res => {
+
+                       console.log("ICIIIIIIIIIIIII");
+                       console.log(this.temp[0]=res.data[0].temp);
+                       this.temp[1]=res.data[0].app_temp;
+                        this.$store.commit('choix/setLon', res.data[0].lon);
+                        this.$store.commit('choix/setLat', res.data[0].lat);
+                        this.$store.commit('choix/setTem', this.temp);
+                    }
+                )
+            }
+
+        },
+        mounted() {
+            console.log("AVANT METEO")
+            this.traiter()
+            console.log("APRES METEO")
+        },
+        computed:{
+            ...mapState(['choix']),
+            lon: function() {
+                return this.choix.long
+            },
+            lat: function() {
+                return this.choix.lat
+            }
+
+
+        },
+        watch: {
+            lat: function(){
+                this.traiter()
+            },
+            long: function(){
+                this.traiter()
+            }
+        }
     }
 </script>
 

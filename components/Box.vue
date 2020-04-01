@@ -72,6 +72,8 @@
                         let info = res.results[0]
 
                         this.$store.commit('choix/set', info.formatted);
+                        this.$store.commit('choix/setLat', info.annotations.DMS.lat);
+                        this.$store.commit('choix/setLong', info.annotations.DMS.lng);
 
                         let infoFractionnee = info.formatted.split(", ")
                         console.log(infoFractionnee)
@@ -89,6 +91,7 @@
             
         },
         mounted() {
+            console.log("https://api.opencagedata.com/geocode/v1/json?q="+this.leChoix+"&key="+process.env.GEOCODE_KEY+"&language=fr&pretty=1")
             this.traiter()
         },
         computed:{
