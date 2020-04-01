@@ -52,8 +52,51 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+
     export default {
-        name: "Avis"
+        name: "Avis",
+        data() {
+            return {
+                photos: []
+            }
+        },
+        methods:{
+            traiter: function(){
+                this.$axios({
+                    "method":"GET",
+                    "url":"https://travel-advisory.p.rapidapi.com/api",
+                    "headers":{
+                    "content-type":"application/octet-stream",
+                    "x-rapidapi-host":"travel-advisory.p.rapidapi.com",
+                    "x-rapidapi-key":"dcecfe35cdmsh67178d061e061abp18d85bjsn20a35b7eb11a"
+                }
+                })
+                .then((response)=>{
+                    console.log("DEBUT REPONSE")
+                    console.log(response)
+                    console.log("FIN REPONSE")
+                })
+                .catch((error)=>{
+                console.log(error)
+                })
+            }
+            
+        },
+        mounted() {
+            this.traiter()
+        },
+        computed:{
+            ...mapState(['choix']),
+            leChoix: function() {
+                return this.choix.location
+            }
+        },
+        watch: {
+            leChoix: function(){
+                this.traiter()
+            }
+        }
     }
 </script>
 
