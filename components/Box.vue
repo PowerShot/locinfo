@@ -1,38 +1,43 @@
 <template>
-
-    <div class="features-boxed">
-        <div class="container">
-            <div class="intro">
-                <h2 class="text-center">{{this.emplacement}}, <b>{{this.pays}}</b></h2>
-                <p class="text-center">Voici l'essentiel de ce qu'il y a à savoir pour '{{this.leChoix.split(',')[0]}}'</p>
-            </div>
-
-            <div class="row justify-content-center features pb-0">
-                <div class="col-md-4">
-                        <Meteo/>
-                    <div class="row">
-                        <Actualite class="mr-3 ml-3"/>
-                    </div>
-
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <Carte/>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <Photo/>
-                        </div>
-                        <div class="col-md-6">
-                            <Avis/>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
+    <div>
+        <div v-if="this.introuvable == true" class=" features-boxed intro">
+            <h2 class="text-center"> Il se trouve que <mark>'{{ this.leChoix }}'</mark> n'existe pas </b></h2>
+            <p class="text-center"> On a beau cherché mais on ne trouve pas, faudrait voir du côté de Narnia 🧞 </p>
         </div>
+        <div v-else class="features-boxed">
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">{{this.emplacement}}, <b>{{this.pays}}</b></h2>
+                    <p class="text-center">Voici l'essentiel de ce qu'il y a à savoir pour '{{this.leChoix.split(',')[0]}}'</p>
+                </div>
 
+                <div class="row justify-content-center features pb-0">
+                    <div class="col-md-4">
+                            <Meteo/>
+                        <div class="row">
+                            <Actualite class="mr-3 ml-3"/>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <Carte/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <Photo/>
+                            </div>
+                            <div class="col-md-6">
+                                <Avis/>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -54,6 +59,7 @@
                 visible: false,
                 afficherErreur: false,
                 miniature: '',
+                introuvable: false,
 
                 emplacement: '',
                 pays : ''
@@ -91,6 +97,11 @@
                         console.log(info.components)
                         this.emplacement = info.annotations.flag + " " + endroit
                         console.log(this.emplacement)
+                        this.introuvable = false
+                    }
+                ).catch(
+                    err => {
+                        this.introuvable = true
                     }
                 )
             }

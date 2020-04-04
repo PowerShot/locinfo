@@ -108,7 +108,6 @@ app.post("/", (req, res) =>{
  */
 app.get("/donnee", (req, res) =>{
     //let db = mysql.createConnection(db_config)
-    db.connect()
     let requete = 'SELECT lieu FROM classement ORDER BY nb DESC LIMIT 5'
     console.log("Envoie des 5 villes les plus visitées en cours :)")
 
@@ -128,35 +127,13 @@ app.get("/donnee", (req, res) =>{
 })
 
 db.on('error', function(err) {
-
-    //- The server close the connection.
-    if(err.code === "PROTOCOL_CONNECTION_LOST"){    
-        console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
-        db = reconnect(db);
-    }
-
-    //- Connection in closing
-    else if(err.code === "PROTOCOL_ENQUEUE_AFTER_QUIT"){
-        console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
-        db = reconnect(db);
-    }
-
-    //- Fatal error : connection variable must be recreated
-    else if(err.code === "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR"){
-        console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
-        db = reconnect(db);
-    }
-
-    //- Error because a connection is already being established
-    else if(err.code === "PROTOCOL_ENQUEUE_HANDSHAKE_TWICE"){
-        console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
-    }
-
-    //- Anything else
-    else{
-        console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
-        db = reconnect(db);
-    }
+    //PROTOCOL_CONNECTION_LOST -> The server close the connection.
+    //PROTOCOL_ENQUEUE_AFTER_QUIT -> Connection in closing
+    //PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR -> Fatal error : connection variable must be recreated
+    //PROTOCOL_ENQUEUE_HANDSHAKE_TWICE -> Error because a connection is already being established
+    console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
+    db = reconnect(db);
+    
 
 });
 
