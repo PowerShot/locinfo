@@ -1,13 +1,17 @@
 <template>
-    <div class="liste-photo colle {
-">
-        <h1>#Photos</h1>
-        <div v-for="(photo) in this.photos">
-            <div class="brick">
-                <img :src="photo.previewURL" alt="Cherry plant" title="Cherry plant">
+    <div>
+        <h1 v-if="this.indisponible == true" class="alert alert-secondary h-100" role="alert">
+                😳 Oups nous n'avons pas trouvé de photo 
+        </h1>
+        <div v-else class="liste-photo colle {
+    ">
+            <h1>#Photos</h1>
+            <div v-for="(photo) in this.photos">
+                <div class="brick">
+                    <img :src="photo.previewURL" alt="Cherry plant" title="Cherry plant">
+                </div>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -18,7 +22,8 @@
         name: "Photo",
         data() {
             return {
-                photos: []
+                photos: [],
+                indisponible: false
             }
         },
         methods:{
@@ -28,13 +33,15 @@
                     )
                 .then(
                     res => {
-                        console.log("debut")
-                        console.log(res)
                         this.photos = res.hits
-                        console.log(res.hits)
-                        console.log("fin")
+                        if(this.photos.length == 0)
+                            this.indisponible = true
+                        else
+                            this.indisponible = false
                     }
-                )
+                ).catch(err => {
+                    
+                })
             }
             
         },
@@ -59,6 +66,7 @@
     img, video {
         max-width: 100%;
         vertical-align: middle;
+        margin: 0.5em;
     }
 
     h1 {
@@ -66,7 +74,7 @@
     }
 
     .liste-photo {
-        max-height: 40em;
+        height: 40em;
         max-width: 20em;
         overflow:scroll;
         -webkit-overflow-scrolling: touch;
@@ -80,5 +88,10 @@
         }
     }
 
+    .full-width-div {
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
 
 </style>

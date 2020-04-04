@@ -27,17 +27,15 @@
                         <span><b><u>Les plus populaires</u></b></span>
                     </div>
                     <div class="suggestion-wrap d-flex justify-content-center">
-                        <span @click="clickRechercher('Le Mans')">Le Mans</span>
-                        <span @click="clickRechercher('Paris')">Paris</span>
-                        <span @click="clickRechercher('Rio')">Rio</span>
-                        <span @click="clickRechercher('Luxembourg')">Luxembourg</span>
-                        <span @click="clickRechercher('Niamey')">Niamey</span>
+                        <span class="align-self-center" v-for="(endroit) in this.classement" @click="clickRechercher(endroit.lieu)">
+                            {{endroit.lieu}}
+                        </span>
                     </div>
                 </fieldset>
             </form>
         </div>
         <!-- <transition id="resultats" enter-active-class="animated fadeInUp"> -->
-            <Box name="box" v-if="visible == true" />
+            <Box name="box" v-if="this.visible == true" />
         <!-- </transition> -->
     </div>
 </template>
@@ -53,8 +51,12 @@
                 visible: false,
                 afficherErreur: false,
                 miniature: '',
-                lieu: ''
+                lieu: '',
+                classement: ['Le Mans', 'Paris', 'Rio', 'Luxembourg', 'Niamey']
             }
+        },
+        mounted() {
+            this.updateClassement()
         },
         methods: {
             clickRechercher: function(ville){
@@ -64,12 +66,37 @@
                 }else if(ville !== null){
                     this.lieu = ville
                 }
+                this.lieu = this.toCapitalize(this.lieu)
                 this.visible = true
                 this.miniature = 'petit'
 
                 this.afficherErreur = false
                 
                 this.$store.commit('choix/set', this.lieu);
+                
+                this.$axios.post('/api',{
+                    lieu: this.lieu,
+                }).then(function(response){
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                this.updateClassement()
+            },
+            toCapitalize: function(text){
+                return text.toLowerCase().replace(/\b(\w)/g, x => { return x.toUpperCase(); })
+            },
+            updateClassement: function(){
+                // Obtention des villes les plus visité
+                this.$axios.$get('/api/donnee')
+                .then(
+                    res => {
+                        if(res !== undefined || res.length != 0)
+                            this.classement = res
+                            
+                    }
+                )
             }
         }
     }

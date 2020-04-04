@@ -26,6 +26,18 @@
                         </a>
                     </div>
 
+                    <a v-if="this.indisponible == true" href="" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                        <div class="media"><h1>😯</h1>
+                            <div class="media-body ml-4">
+                                <small class="small font-weight-bold">Pas de chance</small>
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <h6 class="mb-0"> Aucune actualité disponible de ce lieu pour le moment</h6>
+                                </div>
+                                <p class="font-italic text-muted mb-0 text-small"> Il se trouve que nous ne trouvons aucun article pour le lieu sélectionné</p>
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -38,7 +50,8 @@
         name: "Actualite",
         data() {
             return {
-                articles: []
+                articles: [],
+                indisponible: false
             }
         },
         methods:{
@@ -49,8 +62,15 @@
                 .then(
                     res => {
                         this.articles = res.articles
+                        if(this.articles.length == 0)
+                            this.indisponible = true
+                        else
+                            this.indisponible = false
+                        console.log(this.articles)
                     }
-                )
+                ).catch(err => {
+                    this.indisponible = true;
+                })
             }
             
         },

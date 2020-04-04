@@ -61,6 +61,7 @@
         },
         methods:{
             traiter: function(){
+                // Obtention des infos géographiques
                 this.$axios.$get(
                         `https://api.opencagedata.com/geocode/v1/json?q=${this.leChoix}&key=${process.env.GEOCODE_KEY}&language=fr&pretty=1`
                     )
@@ -71,14 +72,19 @@
                         
                         let info = res.results[0]
 
+                        // Initialisation des coordonées GPS et d'informations sur le lieu plus précis
                         this.$store.commit('choix/set', info.formatted);
-                        this.$store.commit('choix/setLat', info.bounds.northeast.lat);
-                        this.$store.commit('choix/setLong', info.bounds.northeast.lng);
+                        this.$store.commit('choix/setLat', info.geometry.lat);
+                        this.$store.commit('choix/setLong', info.geometry.lng);
 
+                        
                         let infoFractionnee = info.formatted.split(", ")
                         console.log(infoFractionnee)
 
+                        // On prend toutes les infos sauf le pays qui sera à part
                         let endroit = infoFractionnee.slice(0, infoFractionnee.length-1).join(", ")
+
+                        // Le pays sera mis en gras
                         this.pays = infoFractionnee[infoFractionnee.length-1]
 
                         console.log(endroit)

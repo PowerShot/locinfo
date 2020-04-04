@@ -24,6 +24,12 @@
             ...mapState(['choix']),
             leChoix: function() {
                 return this.choix.location
+            },
+            lon: function() {
+                return this.choix.lon
+            },
+            lat: function() {
+                return this.choix.lat
             }
         },
         watch: {

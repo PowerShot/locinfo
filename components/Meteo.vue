@@ -3,58 +3,16 @@
         <div class="top">
             <div class="wrapper">
                 <div class="mynav">
-                    <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a>
-                    <a href="javascript:;"><span class="lnr lnr-cog"></span></a>
+                    <!-- <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a> -->
+                    <!-- <a href="javascript:;"><span class="lnr lnr-cog"></span></a> -->
                 </div>
-                <h1 class="heading">Clear night</h1>
-                <h3 class="location">Dhaka, Bangladesh</h3>
+                <h1 class="heading">{{ this.description_temps }}</h1><a href="javascript:;"><span><img :src="this.url_icone_temps"/></span></a>
+                <h3 class="location">{{ this.position_meteo}}</h3>
                 <p class="temp">
-                    <span class="temp-value">20</span>
+                    <span class="temp-value">{{ this.temperature }}</span>
                     <span class="deg">0</span>
-                    <a href="javascript:;"><span class="temp-type">C</span></a>
+                    <a><span class="temp-type">C</span></a>
                 </p>
-            </div>
-        </div>
-        <div class="bottom">
-            <div class="wrapper">
-                <ul class="forecast">
-                    <li class="active">
-                        <span class="date">Yesterday</span>
-                        <span class="lnr lnr-sun condition">
-                                <span class="temp">23<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                    <li>
-                        <span class="date">Tomorrow</span>
-                        <span class="lnr lnr-cloud condition">
-                                <span class="temp">21<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                    <li>
-                        <span class="date">Tomorrow</span>
-                        <span class="lnr lnr-cloud condition">
-                                <span class="temp">21<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                    <li>
-                        <span class="date">Tomorrow</span>
-                        <span class="lnr lnr-cloud condition">
-                                <span class="temp">21<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                    <li>
-                        <span class="date">Tomorrow</span>
-                        <span class="lnr lnr-cloud condition">
-                                <span class="temp">21<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                    <li>
-                        <span class="date">Tomorrow</span>
-                        <span class="lnr lnr-cloud condition">
-                                <span class="temp">21<span class="deg">0</span><span class="temp-type">C</span></span>
-                            </span>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -67,23 +25,31 @@
         name: "Meteo",
         data() {
             return {
-                temp: []
+                url_icone_temps: '',
+                description_temps: '',
+                position_meteo: '',
+                temperature: 0
 
             }
         },
         methods:{
             traiter: function(){
-                console.log("https://api.weatherbit.io/v2.0/current?&lat="+ this.lat + "&lon=" + this.lon + "&key="+ process.env.WEATHER_API)
+                console.log("https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat="+ this.lat + "&lon=" + this.lon + "&key="+ process.env.WEATHER_API)
                 this.$axios.$get(
-                        `https://api.weatherbit.io/v2.0/current?&lat=${this.lon}&lon=${this.lat}&key=${process.env.WEATHER_API}`
+                        `https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat=${this.lat}&lon=${this.lon}&key=${process.env.WEATHER_API}`
                     )
                 .then(
 
                     res => {
 
-                       console.log("ICIIIIIIIIIIIII");
-                       console.log(res)
-                       temp.push(res)
+                        console.log("ICIIIIIIIIIIIII");
+                        console.log(res)
+                        let meteo = res.data[0]                        
+
+                        this.position_meteo = meteo.city_name
+                        this.temperature = meteo.temp
+                        this.url_icone_temps = 'https://www.weatherbit.io/static/img/icons/' + meteo.weather.icon + '.png'
+                        this.description_temps = meteo.weather.description
                     }
                 )
             }
@@ -100,8 +66,6 @@
             lat: function() {
                 return this.choix.lat
             }
-
-
         },
         watch: {
             lat: function(){
@@ -129,10 +93,8 @@
     }
     .weather-card .top {
         position: relative;
-        //height: 570px;
-        //width: 100%;
         overflow: hidden;
-        background: url("https://s-media-cache-ak0.pinimg.com/564x/cf/1e/c4/cf1ec4b0c96e59657a46867a91bb0d1e.jpg") no-repeat;
+        background: url("https://image.freepik.com/free-photo/beautiful-landscape-bamboo-grove-forest-arashiyama-kyoto_74190-2264.jpg") no-repeat;
         background-size: cover;
         background-position: center center;
         text-align: center;
@@ -262,11 +224,6 @@
     }
     .weather-card .bottom .wrapper .forecast li.active {
         color: rgba(0, 0, 0, 0.8);
-    }
-    .weather-card.rain .top {
-        background: url("http://img.freepik.com/free-vector/girl-with-umbrella_1325-5.jpg?size=338&ext=jpg") no-repeat;
-        background-size: cover;
-        background-position: center center;
     }
 
 </style>
