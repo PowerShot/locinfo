@@ -1,6 +1,7 @@
 <template>
     <div>
-        <span class="fi-arrow-left"></span>
+        
+
         <div name="haut_de_page" class="s006" :class="miniature">
             <form v-on:submit.prevent="clickRechercher(null)">
                 <fieldset>
@@ -35,7 +36,14 @@
             </form>
         </div>
         <!-- <transition id="resultats" enter-active-class="animated fadeInUp"> -->
-            <Box name="box" v-if="this.visible == true" />
+        <div v-if="this.visible == true">
+            <Box name="box"/>
+            <a @click="visible = false; miniature = ''" id="return-to-top">
+                <i><svg class="bi bi-chevron-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L8 5.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z" clip-rule="evenodd"/>
+                </svg></i>
+            </a>
+        </div>
         <!-- </transition> -->
     </div>
 </template>
@@ -86,6 +94,9 @@
             },
             toCapitalize: function(text){
                 return text.toLowerCase().replace(/\b(\w)/g, x => { return x.toUpperCase(); })
+            },
+            cacher: function() {
+                this.visible = false
             },
             updateClassement: function(){
                 // Obtention des villes les plus visité
@@ -1057,4 +1068,46 @@
     .petit {
         min-height: 10vh;
     }
+
+
+    #return-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgb(0, 0, 0);
+        background: rgba(0, 0, 0, 0.7);
+        width: 50px;
+        height: 50px;
+        display: block;
+        text-decoration: none;
+        -webkit-border-radius: 35px;
+        -moz-border-radius: 35px;
+        border-radius: 35px;
+        -webkit-transition: all 0.3s linear;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+    #return-to-top i {
+        color: #fff;
+        margin: 0;
+        position: relative;
+        left: 16px;
+        top: 13px;
+        font-size: 19px;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+    #return-to-top:hover {
+        background: rgba(0, 0, 0, 0.9);
+    }
+    #return-to-top:hover i {
+        color: #fff;
+        top: 5px;
+    }
+
 </style>
