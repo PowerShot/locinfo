@@ -1,7 +1,7 @@
 var express = require("express")
 var app = express()
 const bodyParser = require('body-parser')
-const mysql = require('mysql')
+const mysql = require('mysql2')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -133,8 +133,6 @@ db.on('error', function(err) {
     //PROTOCOL_ENQUEUE_HANDSHAKE_TWICE -> Error because a connection is already being established
     console.log("/!\\ Cannot establish a connection with the database. /!\\ ("+err.code+")");
     db = reconnect(db);
-    
-
 });
 
 
