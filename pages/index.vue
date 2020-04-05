@@ -3,12 +3,10 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
 import Recherche from '~/components/Recherche.vue'
 
 export default {
   components: {
-    Logo,
     Recherche
   },
   middleware: "traitement"
@@ -17,7 +15,7 @@ export default {
 
 <style>
   body{
-    background-image: url("../components/files/images/accueil.jpg");
+    background-image: url("../static/accueil.jpg");
     background-size: cover;
   }
 

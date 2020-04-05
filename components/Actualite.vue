@@ -66,11 +66,23 @@
                             this.indisponible = true
                         else
                             this.indisponible = false
-                        console.log(this.articles)
                     }
                 ).catch(err => {
                     this.indisponible = true;
                 })
+
+                // Si les images ne chargent pas
+                var img = document.createElement('img');
+                img.onload = function() {
+                    // It worked, either replace `image-id` with this new `img` element:
+                    var oldImg = document.getElementById("image-id");
+                    oldImg.parentNode.insertBefore(img, oldImg);
+                    oldImg.parentNode.removeChild(oldImg);
+                };
+                img.src = "https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/19439217481557740364-512.png"; // Important to do this AFTER hooking `onload` above
+
+
+
             }
             
         },

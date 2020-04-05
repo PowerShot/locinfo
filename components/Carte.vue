@@ -28,7 +28,6 @@
         },
         watch: {
             leChoix: function(){
-                console.log("L'URL : " + this.URL)
                 this.URL = "https://maps.google.com/maps?q=" + this.choix.location + "&t=&z=13&ie=UTF8&iwloc=&output=embed"
             }
         },

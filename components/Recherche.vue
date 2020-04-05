@@ -82,7 +82,7 @@
                 
                 this.$store.commit('choix/set', this.lieu);
                 
-                this.$axios.post('/api',{
+                this.$axios.post((process.env.NODE_ENV !== 'production' ? '': process.env.URL_SITE) + '/api',{
                     lieu: this.lieu,
                 }).then(function(response){
                     console.log(response)
@@ -100,7 +100,7 @@
             },
             updateClassement: function(){
                 // Obtention des villes les plus visité
-                this.$axios.$get('/api/donnee')
+                this.$axios.$get((process.env.NODE_ENV !== 'production' ? '': process.env.URL_SITE) + '/api/donnee')
                 .then(
                     res => {
                         if(res !== undefined || res.length != 0)
