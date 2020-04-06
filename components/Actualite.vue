@@ -12,9 +12,9 @@
 
 
                     <div v-for="(article) in this.articles">
-                        
                         <a :href="article.url" target = "_blank" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media"><img :src="article.image" alt="user" width="50">
+                            <div class="media">
+                                <img :src="urlExists(article.image) ? article.image : 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/19439217481557740364-512.png'" alt="user" width="50">
                                 <div class="media-body ml-4">
                                     <small class="small font-weight-bold">{{article.publishedAt}}</small>
                                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -71,18 +71,17 @@
                     this.indisponible = true;
                 })
 
-                // Si les images ne chargent pas
-                var img = document.createElement('img');
-                img.onload = function() {
-                    // It worked, either replace `image-id` with this new `img` element:
-                    var oldImg = document.getElementById("image-id");
-                    oldImg.parentNode.insertBefore(img, oldImg);
-                    oldImg.parentNode.removeChild(oldImg);
-                };
-                img.src = "https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/19439217481557740364-512.png"; // Important to do this AFTER hooking `onload` above
 
-
-
+            },
+            urlExists: function(url) {
+                try{
+                    var http = new XMLHttpRequest()
+                    http.open('GET', url, false)
+                    http.send()
+                    return http.status != 404
+                }catch(err){
+                    return false
+                }
             }
             
         },

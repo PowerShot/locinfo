@@ -80,17 +80,18 @@
 
                 this.afficherErreur = false
                 
-                this.$store.commit('choix/set', this.lieu);
-                
-                this.$axios.post((process.env.NODE_ENV !== 'production' ? '': process.env.URL_SITE) + '/api',{
-                    lieu: this.lieu,
-                }).then(function(response){
-                    console.log(response)
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                if(this.$store.commit('choix/setRequete', this.lieu)){
+                    this.$store.commit('choix/set', this.lieu)
+                    this.$axios.post((process.env.NODE_ENV !== 'production' ? '': process.env.URL_SITE) + '/api',{
+                        lieu: this.lieu,
+                    }).then(function(response){
+                        console.log("Requete envoyé avec succès")
+                    }).catch(function (error) {
+                        console.log("Requete pas prise en compte");
+                    });
 
-                this.updateClassement()
+                    this.updateClassement()
+                }
             },
             toCapitalize: function(text){
                 return text.toLowerCase().replace(/\b(\w)/g, x => { return x.toUpperCase(); })

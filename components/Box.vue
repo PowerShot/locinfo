@@ -1,14 +1,14 @@
 <template>
     <div>
         <div v-if="this.introuvable == true" class=" features-boxed intro">
-            <h2 class="text-center"> Il se trouve que <mark>'{{ this.leChoix }}'</mark> n'existe pas </b></h2>
+            <h2 class="text-center"> Il se trouve que <mark>'{{ this.laRequete }}'</mark> n'existe pas </b></h2>
             <p class="text-center"> On a beau cherché mais on ne trouve pas, faudrait voir du côté de Narnia 🧞 </p>
         </div>
         <div v-else class="features-boxed">
             <div class="container">
                 <div class="intro">
                     <h2 class="text-center">{{this.emplacement}}, <b>{{this.pays}}</b></h2>
-                    <p class="text-center">Voici l'essentiel de ce qu'il y a à savoir pour '{{this.leChoix.split(',')[0]}}'</p>
+                    <p class="text-center">Voici l'essentiel de ce qu'il y a à savoir pour '{{this.laRequete}}'</p>
                 </div>
 
                 <div class="row justify-content-center features pb-0">
@@ -69,12 +69,12 @@
             traiter: function(){
                 // Obtention des infos géographiques
                 this.$axios.$get(
-                        `https://api.opencagedata.com/geocode/v1/json?q=${this.leChoix}&key=${process.env.GEOCODE_KEY}&language=fr&pretty=1`
+                        `https://api.opencagedata.com/geocode/v1/json?q=${this.laRequete}&key=${process.env.GEOCODE_KEY}&language=fr&pretty=1`
                     )
                 .then(
                     res => {
                         
-                        console.log(res.results[0].annotations.flag)
+                        // console.log(res.results[0].annotations.flag)
                         
                         let info = res.results[0]
 
@@ -82,10 +82,9 @@
                         this.$store.commit('choix/set', info.formatted);
                         this.$store.commit('choix/setLat', info.geometry.lat);
                         this.$store.commit('choix/setLong', info.geometry.lng);
-
                         
                         let infoFractionnee = info.formatted.split(", ")
-                        console.log(infoFractionnee)
+                        // console.log(infoFractionnee)
 
                         // On prend toutes les infos sauf le pays qui sera à part
                         let endroit = infoFractionnee.slice(0, infoFractionnee.length-1).join(", ")
@@ -93,10 +92,10 @@
                         // Le pays sera mis en gras
                         this.pays = infoFractionnee[infoFractionnee.length-1]
 
-                        console.log(endroit)
-                        console.log(info.components)
+                        // console.log(endroit)
+                        // console.log(info.components)
                         this.emplacement = info.annotations.flag + " " + endroit
-                        console.log(this.emplacement)
+                        // console.log(this.emplacement)
                         this.introuvable = false
                     }
                 ).catch(
@@ -108,17 +107,18 @@
             
         },
         mounted() {
-            console.log("https://api.opencagedata.com/geocode/v1/json?q="+this.leChoix+"&key="+process.env.GEOCODE_KEY+"&language=fr&pretty=1")
+            // console.log("https://api.opencagedata.com/geocode/v1/json?q="+this.laRequete+"&key="+process.env.GEOCODE_KEY+"&language=fr&pretty=1")
             this.traiter()
         },
         computed:{
             ...mapState(['choix']),
-            leChoix: function() {
-                return this.choix.location
+            laRequete: function() {
+                return this.choix.requete
             }
         },
         watch: {
-            leChoix: function(){
+            laRequete: function(){
+                // console.log("Nouvelle requete")
                 this.traiter()
             }
         }

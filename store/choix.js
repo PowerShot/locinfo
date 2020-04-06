@@ -1,4 +1,5 @@
 export const state = () => ({
+    requete: '',
     location: 'ici',
     lon: '',
     lat: '',
@@ -7,8 +8,10 @@ export const state = () => ({
 
 export const mutations = {
     set(state, lieu){
-        console.log("changement de lieu : " + lieu)
+        if(state.location === lieu) return false
+        console.log("changement de lieu : " + lieu + " avant : " + state.location)
         state.location = lieu
+        return true
     },
     setLong(state, lon){
         console.log("changement de longitude : " + lon)
@@ -21,6 +24,12 @@ export const mutations = {
     setTem(state, temp){
         console.log("changement de  : " + temp)
         state.temp = temp
+    },
+    setRequete(state, lieu){
+        if(state.requete === lieu) return false
+        console.log("changement de la requete : " + lieu + " avant : " + state.requete)
+        state.requete = lieu
+        return true
     }
 }
 
@@ -36,6 +45,9 @@ export const getters = {
     },
     getTem(state){
         return state.temp;
+    },
+    getRequete(state){
+        return state.requete;
     }
 
 }

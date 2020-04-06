@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 v-if="this.indisponible == true" class="alert alert-secondary h-100" role="alert">
-                😳 Oups nous n'avons pas trouvé de photo 
+                😳 Oups nous n'avons pas trouvé de photos 
         </h1>
         <div v-else class="liste-photo colle {
     ">

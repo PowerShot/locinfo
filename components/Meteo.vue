@@ -6,13 +6,19 @@
                     <!-- <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a> -->
                     <!-- <a href="javascript:;"><span class="lnr lnr-cog"></span></a> -->
                 </div>
-                <h1 class="heading">{{ this.description_temps }}</h1><a href="javascript:;"><span><img :src="this.url_icone_temps"/></span></a>
-                <h3 class="location">{{ this.position_meteo}}</h3>
-                <p class="temp">
-                    <span class="temp-value">{{ this.temperature }}</span>
-                    <span class="deg">0</span>
-                    <a><span class="temp-type">C</span></a>
-                </p>
+                <div v-if="erreur == true">
+                    <h1>☄️</h1>
+                    <h3 class="alert alert-warning" > Houston, nous avons un problème.. Nous ne captons pas la météo..</h3>
+                </div>
+                <div v-else>
+                    <h1 class="heading">{{ this.description_temps }}</h1><a href="javascript:;"><span><img :src="this.url_icone_temps"/></span></a>
+                    <h3 class="location">{{ this.position_meteo}}</h3>
+                    <p class="temp">
+                        <span class="temp-value">{{ this.temperature }}</span>
+                        <span class="deg">0</span>
+                        <a><span class="temp-type">C</span></a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -28,13 +34,15 @@
                 url_icone_temps: '',
                 description_temps: '',
                 position_meteo: '',
-                temperature: 0
+                temperature: 0,
+                erreur: false
 
             }
         },
         methods:{
             traiter: function(){
-                console.log("https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat="+ this.lat + "&lon=" + this.lon + "&key="+ process.env.WEATHER_API)
+                
+                // console.log("https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat="+ this.lat + "&lon=" + this.lon + "&key="+ process.env.WEATHER_API)
                 this.$axios.$get(
                         `https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat=${this.lat}&lon=${this.lon}&key=${process.env.WEATHER_API}`
                     )
@@ -42,16 +50,19 @@
 
                     res => {
 
-                        console.log("ICIIIIIIIIIIIII");
-                        console.log(res)
+                        // console.log("ICIIIIIIIIIIIII");
+                        // console.log(res)
                         let meteo = res.data[0]                        
 
                         this.position_meteo = meteo.city_name
                         this.temperature = meteo.temp
                         this.url_icone_temps = 'https://www.weatherbit.io/static/img/icons/' + meteo.weather.icon + '.png'
                         this.description_temps = meteo.weather.description
+                        this.erreur = false
                     }
-                )
+                ).catch(err =>{
+                    this.erreur = true
+                })
             }
 
         },
@@ -85,8 +96,6 @@
 
     .weather-card {
         margin-bottom: 60px;
-        //height: 740px;
-        //width: 450px;
         background: #fff;
         box-shadow: 0 1px 38px rgba(0, 0, 0, 0.15), 0 5px 12px rgba(0, 0, 0, 0.25);
         overflow: hidden;
