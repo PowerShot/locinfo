@@ -29,7 +29,7 @@
         methods:{
             traiter: function(){
                 this.$axios.$get(
-                    `https://pixabay.com/api/?key=${process.env.PHOTO_API}&q=${this.leChoix.split(',')[0]}&image_type=photo`
+                    `https://cors-anywhere.herokuapp.com/https://pixabay.com/api/?key=${process.env.PHOTO_API}&q=${this.leChoix.split(',')[0]}&image_type=photo`
                     )
                 .then(
                     res => {

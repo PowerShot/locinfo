@@ -57,7 +57,7 @@
         methods:{
             traiter: function(){
                 this.$axios.$get(
-                        `https://gnews.io/api/v3/search?q="${this.leChoix.split(',')[0]}"&lang=fr&token=${process.env.NEWS_API}`
+                        `https://cors-anywhere.herokuapp.com/https://gnews.io/api/v3/search?q="${this.leChoix.split(',')[0]}"&lang=fr&token=${process.env.NEWS_API}`
                     )
                 .then(
                     res => {

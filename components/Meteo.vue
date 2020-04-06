@@ -44,7 +44,7 @@
                 
                 // console.log("https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat="+ this.lat + "&lon=" + this.lon + "&key="+ process.env.WEATHER_API)
                 this.$axios.$get(
-                        `https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat=${this.lat}&lon=${this.lon}&key=${process.env.WEATHER_API}`
+                        `https://cors-anywhere.herokuapp.com/https://api.weatherbit.io/v2.0/current?lang=fr&units=m&lat=${this.lat}&lon=${this.lon}&key=${process.env.WEATHER_API}`
                     )
                 .then(
 

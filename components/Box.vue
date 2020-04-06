@@ -69,7 +69,7 @@
             traiter: function(){
                 // Obtention des infos géographiques
                 this.$axios.$get(
-                        `https://api.opencagedata.com/geocode/v1/json?q=${this.laRequete}&key=${process.env.GEOCODE_KEY}&language=fr&pretty=1`
+                        `https://cors-anywhere.herokuapp.com/https://api.opencagedata.com/geocode/v1/json?q=${this.laRequete}&key=${process.env.GEOCODE_KEY}&language=fr&pretty=1`
                     )
                 .then(
                     res => {
