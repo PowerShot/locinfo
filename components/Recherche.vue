@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
     import Box from "~/components/Box.vue";
     export default {
         name: "Recherche",
@@ -66,6 +66,12 @@
         mounted() {
             this.updateClassement()
         },
+        computed:{
+            ...mapState(['choix']),
+            laRequete: function() {
+                return this.choix.requete
+            }
+        },
         methods: {
             clickRechercher: function(ville){
                 if((ville === null) && (this.lieu == '')){
@@ -80,8 +86,10 @@
 
                 this.afficherErreur = false
                 
-                if(this.$store.commit('choix/setRequete', this.lieu)){
+                if(this.laRequete != this.lieu){
+                    this.$store.commit('choix/setRequete', this.lieu)
                     this.$store.commit('choix/set', this.lieu)
+                    console.log("FREROT ON EST LA")
                     this.$axios.post((process.env.NODE_ENV !== 'production' ? '': process.env.URL_SITE) + '/api',{
                         lieu: this.lieu,
                     }).then(function(response){
@@ -92,6 +100,7 @@
 
                     this.updateClassement()
                 }
+                
             },
             toCapitalize: function(text){
                 return text.toLowerCase().replace(/\b(\w)/g, x => { return x.toUpperCase(); })
