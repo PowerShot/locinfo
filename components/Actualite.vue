@@ -14,7 +14,7 @@
                     <div v-for="(article) in this.articles">
                         <a :href="article.url" target = "_blank" class="list-group-item list-group-item-action list-group-item-light rounded-0">
                             <div class="media">
-                                <!-- <img :src="urlExists(article.image) ? article.image : 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/19439217481557740364-512.png'" alt="user" width="50"> -->
+                                <img :src="urlExists(article.image) ? article.image : 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/19439217481557740364-512.png'" alt="user" width="50">
                                 <div class="media-body ml-4">
                                     <small class="small font-weight-bold">{{article.publishedAt}}</small>
                                     <div class="d-flex align-items-center justify-content-between mb-1">
